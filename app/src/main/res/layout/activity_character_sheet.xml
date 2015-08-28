@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.erik.myapplication.Character_Sheet"
+    android:id="@+id/encounter"
+    android:background="#fff6ffac">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Description"
+        android:id="@+id/descriptionButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Injuries"
+        android:id="@+id/injuriesButton"
+        android:layout_below="@+id/descriptionButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/descriptionButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Equipment"
+        android:id="@+id/equipmentButton"
+        android:layout_below="@+id/injuriesButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/stanceButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Stance"
+        android:id="@+id/stanceButton"
+        android:layout_below="@+id/equipmentButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/injuriesButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Attack"
+        android:id="@+id/attackButton"
+        android:layout_below="@+id/stanceButton"
+        android:layout_alignStart="@+id/stanceButton"
+        android:layout_marginTop="0dp"
+        android:layout_alignEnd="@+id/informationView" />
+
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:id="@+id/PortraitField"
+        android:background="#ff5053ff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:text="New Text"
+        android:id="@+id/informationView"
+        android:layout_below="@+id/PortraitField"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Skill"
+        android:id="@+id/skillButton"
+        android:layout_below="@+id/attackButton"
+        android:layout_alignStart="@+id/attackButton"
+        android:layout_marginTop="0dp"
+        android:layout_alignEnd="@+id/informationView" />
+
+</RelativeLayout>
