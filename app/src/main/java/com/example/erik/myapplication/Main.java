@@ -25,7 +25,7 @@ public class Main extends Activity {
                 new Button.OnClickListener(){
                     public void onClick(View v)
                     {
-                        startActivity(new Intent(Main.this,Character_Sheet.class));
+                        startActivity(new Intent(Main.this,Encounter.class));
                     };
                 }
         );
