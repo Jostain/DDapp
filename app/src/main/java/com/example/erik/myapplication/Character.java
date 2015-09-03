@@ -1,5 +1,7 @@
 package com.example.erik.myapplication;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,12 +15,14 @@ public class Character {
     String description;
     String stance;
     BodyPart Soul;
+    Bitmap cardback;
 
     public Character()
     {
 
     }
-
+    public Bitmap getCardBack()
+    {return null;}
     private class BodyPart {
         BodyPart parent;
         ArrayList<BodyPart> children;
