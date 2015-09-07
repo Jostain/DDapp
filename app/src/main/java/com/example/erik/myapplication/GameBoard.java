@@ -1,64 +1,51 @@
 package com.example.erik.myapplication;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.Display;
-import android.view.DragEvent;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 /**
  * Created by Erik on 2015-07-15.
  */
 
-public class GameBoard extends SurfaceView implements Runnable{
-    float offsetX = 0;
-    float offsetY = 0;
-    //Paint square = new Paint();
-    Paint paintOcean = new Paint();
-    Rect background = new Rect();
-
+public class GameBoard extends View{
+    ArrayList<Character> characters = new ArrayList<>();
     int width;
     int height;
+    Character enemyOne;
+    Character enemyTwo;
+    Character enemyThree;
+    int cardWidth;
+    int cardHeight;
+    int cardSpacing;
+    Context context;
 
-    ArrayList<Character> characters = new ArrayList<>();
-
-    private float downYValue;
-
-    //surfaceview stuff
-    boolean isItOk = false;
-    Thread thread = null;
-    SurfaceHolder holder;
     public GameBoard(Context context) {
         super(context);
-
-        holder = getHolder();
-        background.set(0,0,300,300);
-        paintOcean.setColor(Color.RED);
-        paintOcean.setStyle(Paint.Style.FILL);
-        //square.setARGB(0,0,255,255);
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
         height = size.y;
-
-
+        this.context = context;
+        enemyOne = new Character("One");
+        enemyTwo = new Character("Two");
+        enemyThree = new Character("Three");
+        cardWidth = (int)(width/3.5);
+        cardHeight = (int)(height/3.5);
+        cardSpacing = (int)((width-(width/3.5)-(width/3.5)-(width/3.5)))/4;
 
     }
 
@@ -71,18 +58,90 @@ public class GameBoard extends SurfaceView implements Runnable{
     }
 
     @Override
+    protected void onDraw(Canvas canvas) {
+
+        int cardWidth = (int)(width/3.5);
+        int cardHeight = (int)(height/3.5);
+        int cardSpacing = (int)((width-(width/3.5)-(width/3.5)-(width/3.5)))/4;
+
+        super.onDraw(canvas);
+        Paint paint = new Paint();
+        paint.setColor(Color.DKGRAY);
+        Paint cardColor = new Paint();
+
+        Rect rect = new Rect();
+        rect.set(0, 0, width, height);
+        Rect card = new Rect();
+
+
+        canvas.drawARGB(255, 0, 0, 0);
+        canvas.drawRect(rect, paint);
+        cardColor.setColor(Color.WHITE);
+        card.set(cardSpacing, cardSpacing, cardWidth + cardSpacing, cardHeight + cardSpacing * 2);
+        canvas.drawRect(card, cardColor);
+
+
+        cardColor.setColor(Color.WHITE);
+        card.set(cardWidth + cardSpacing * 2, cardSpacing, cardWidth * 2 + cardSpacing * 2, cardHeight + cardSpacing * 2);
+        canvas.drawRect(card, cardColor);
+
+
+        cardColor.setColor(Color.WHITE);
+        card.set(cardWidth * 2 + (cardSpacing * 3), cardSpacing, (cardWidth * 3) + cardSpacing * 3, cardHeight + cardSpacing * 2);
+        canvas.drawRect(card, cardColor);
+        //
+        cardColor.setColor(Color.WHITE);
+        card.set(cardSpacing, cardHeight + cardSpacing * 8, cardWidth + cardSpacing, cardHeight + cardHeight + cardSpacing * 4);
+        canvas.drawRect(card, cardColor);
+
+        cardColor.setColor(Color.WHITE);
+        card.set(cardWidth + cardSpacing * 2, cardHeight + cardSpacing * 8, (cardWidth + cardSpacing) * 3, height-cardSpacing*3);
+        canvas.drawRect(card, cardColor);
+
+        canvas.drawBitmap(enemyOne.getCardBack(), cardSpacing, cardSpacing, new Paint());
+        canvas.drawBitmap(enemyTwo.getCardBack(), cardWidth + cardSpacing * 2, cardSpacing, new Paint());
+        canvas.drawBitmap(enemyThree.getCardBack(), cardWidth*2 + (cardSpacing * 3), cardSpacing, new Paint());
+        canvas.drawBitmap(DataHolder.getPlayer().getCardBack(),cardSpacing,cardHeight + cardSpacing * 8,new Paint());
+
+
+
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                float downXValue;
+
             {
+                float x = event.getX();
+                float y = event.getY();
+                if(y>cardSpacing && y<(cardHeight+cardSpacing*2) && x>cardSpacing && x < cardWidth + cardSpacing)
+                {
+                    Intent i = new Intent(context, Character_Sheet.class);
+                    context.startActivity(i);
+                }
+                else if(y>cardSpacing && y<(cardHeight+cardSpacing*2) && x > cardWidth + cardSpacing * 2 && x<cardWidth * 2 + cardSpacing * 2)
+                {
+                    Intent i = new Intent(context, Character_Sheet.class);
+                    context.startActivity(i);
+                }
+                else if(y>cardSpacing && y<(cardHeight+cardSpacing*2) && x > cardWidth * 2 + (cardSpacing * 3) && x<(cardWidth * 3) + cardSpacing * 3)
+                {
+                    Intent i = new Intent(context, Character_Sheet.class);
+                    context.startActivity(i);
+                }
+                else if(y>(cardHeight + cardSpacing * 8) && y < cardHeight + cardHeight + cardSpacing * 9 && x > cardSpacing && x < (cardWidth + cardSpacing))
+                {
+                    Intent i = new Intent(context, Character_Sheet.class);
+                    context.startActivity(i);
+                }
                 break;
             }
 
             case MotionEvent.ACTION_UP: {
-
+                break;
             }
             case MotionEvent.ACTION_MOVE: {
 
@@ -98,33 +157,4 @@ public class GameBoard extends SurfaceView implements Runnable{
 
 
 
-    @Override
-    public void run() {
-        while (isItOk)
-        {
-            if(!holder.getSurface().isValid())
-            {
-                continue;
-            }
-            Canvas canvas = holder.lockCanvas();
-            canvas.drawRect(background,paintOcean);
-            //canvas.drawRect(background,square);
-
-            for (Character character:characters)
-            {
-
-            }
-            holder.unlockCanvasAndPost(canvas);
-        }
-    }
-
-    public void pause() {
-        isItOk = false;
-        while (true)
-        {
-            try{
-                thread.join();
-            }catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }}}}
+  }

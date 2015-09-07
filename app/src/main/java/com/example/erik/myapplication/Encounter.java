@@ -13,6 +13,7 @@ public class Encounter extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_encounter);
         GameBoard board = new GameBoard(this);
         setContentView(board);
 

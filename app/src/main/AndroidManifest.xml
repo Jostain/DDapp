@@ -21,6 +21,10 @@
             android:label="@string/title_activity_encounter" >
         </activity>
         <activity
+            android:name=".Character_Sheet"
+            android:label="@string/title_activity_Character_Sheet" >
+        </activity>
+        <activity
             android:name=".Attack_Creation"
             android:label="@string/title_activity_attack__creation" >
         </activity>
