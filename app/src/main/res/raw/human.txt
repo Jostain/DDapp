@@ -1,0 +1,9 @@
+Bodypart:Head
+Organ:Brain:Greymatter
+Cover:Muscle:Muscle
+Cover:Skin:Skin
+Organ:Left_Eye
+Cover:Eye_Lid:Skin
+Organ:Right_Eye
+Cover:Eye_Lid:Skin
+Grow:Soul
