@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -40,9 +41,10 @@ public class GameBoard extends View{
         width = size.x;
         height = size.y;
         this.context = context;
-        enemyOne = new Character("One");
-        enemyTwo = new Character("Two");
-        enemyThree = new Character("Three");
+        InputStream inputStream = this.getResources().openRawResource(R.raw.human);
+        enemyOne = new Character("One",inputStream);
+        enemyTwo = new Character("Two",inputStream);
+        enemyThree = new Character("Three",inputStream);
         cardWidth = (int)(width/3.5);
         cardHeight = (int)(height/3.5);
         cardSpacing = (int)((width-(width/3.5)-(width/3.5)-(width/3.5)))/4;

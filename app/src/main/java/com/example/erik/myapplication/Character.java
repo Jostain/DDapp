@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.widget.Switch;
 
 import java.io.BufferedReader;
@@ -22,7 +23,7 @@ public class Character {
 
     public static int windowHeight = 1280;
     public static int windowWidth = 768;
-
+    private static final String TAG = "Character";
 
 
     private String name;
@@ -30,10 +31,12 @@ public class Character {
     private String description;
     private String stance;
     private Bodypart soul = new Bodypart("Soul");
-    HashMap<String,Bodypart> partList;
+    HashMap<String,Bodypart> partList = new HashMap<>();
     private Bitmap cardback;
-    public Character(String name)
+    public Character(String name, InputStream stream)
     {
+        partList.put("Soul",soul);
+        growBody(stream);
         soul.addTag(Tag.ETHERAL);
         int width = (int)(windowWidth/3.5);
         int height = (int)((windowHeight/3.5));
@@ -45,38 +48,43 @@ public class Character {
         paint.setStrokeWidth(5);
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
-        canvas.drawCircle(width / 2, height / 2, (width / 2) - width/10, paint);
+        canvas.drawCircle(width / 2, height / 2, (width / 2) - width / 10, paint);
         paint.setColor(Color.YELLOW);
         canvas.drawRect(0, 0, width-1, height-1, paint);
         cardback = bmp;
+
     }
     public Bitmap getCardBack()
     {return cardback;}
 
-    public void growBody(InputStream stream) {
-
+    private void growBody(InputStream stream) {
+        Log.v(TAG, "Trying to grow Body!!!!!!!!!!!!!!!!!!!!");
         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
         try {
             Bodypart bodypart = null;
             Organ organ = null;
             String line = "";
             while ((line = br.readLine()) != null) {
-                List<String> items = Arrays.asList(line.split("\\s*,\\s*"));
+                Log.v(TAG, line);
+                List<String> items = Arrays.asList(line.split("\\s*:\\s*"));
                 switch(items.get(0))
                 {
                     case "Bodypart":
                         bodypart = new Bodypart(items.get(1));
                         partList.put(items.get(1),bodypart);
                         partList.get(items.get(2)).growBodyPart(bodypart);
+                        Log.v(TAG, "grew bodypart!!!!!!!!!!!!!!!!!!!!!");
                     break;
                     case "Organ":
                         organ = new Organ(items.get(1), items.get(2));
                         bodypart.addOrgan(organ);
+                        Log.v(TAG, "grew organ!!!!!!!!!!!!!!!!!!!!!");
                     break;
                     case "Cover":
                         Organ tempOrgan = new Organ(items.get(1),items.get(2));
                         organ.cover(tempOrgan);
                         organ = tempOrgan;
+                        Log.v(TAG, "grew tissue!!!!!!!!!!!!!!!!!!!!!");
                         break;
 
                 }
@@ -92,8 +100,8 @@ public class Character {
         String name;
         Bodypart parent;
         ArrayList<Material> layers = new ArrayList<>();
-        ArrayList<Bodypart> children;
-        ArrayList<Tag> tags;
+        ArrayList<Bodypart> children = new ArrayList<>();
+        ArrayList<Tag> tags = new ArrayList<>();
         ArrayList<Organ> organs;
         public Bodypart(String name)
         {

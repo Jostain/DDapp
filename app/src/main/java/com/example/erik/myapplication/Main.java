@@ -23,8 +23,9 @@ public class Main extends Activity {
         Button inventory = (Button)findViewById(R.id.inventoryButton);
         Button summonGuardian = (Button)findViewById(R.id.summonGuardianButton);
         Button runeBook = (Button)findViewById(R.id.runeBookButton);
-
         populate();
+
+
 
         searchArea.setOnClickListener(
                 new Button.OnClickListener(){
@@ -39,8 +40,8 @@ public class Main extends Activity {
 
     private void populate() {
         InputStream inputStream = this.getResources().openRawResource(R.raw.human);
-        Character character = new Character("Player");
-        character.growBody(inputStream);
+        Character character = new Character("Player",inputStream);
+        DataHolder.setPlayer(character);
     }
 
 
